@@ -1,3 +1,3 @@
 var documenterSearchIndex = {"docs":
-[{"location":"#Appose","page":"Home","title":"Appose","text":"","category":"section"},{"location":"","page":"Home","title":"Home","text":"Documentation for Appose.","category":"page"},{"location":"","page":"Home","title":"Home","text":"","category":"page"}]
+[{"location":"#Appose","page":"Home","title":"Appose","text":"","category":"section"},{"location":"","page":"Home","title":"Home","text":"Documentation for Appose.","category":"page"},{"location":"","page":"Home","title":"Home","text":"","category":"page"},{"location":"#Appose.create_python_shared_memory-Tuple{Channel, Channel, Type, NTuple{N, Int64} where N}","page":"Home","title":"Appose.create_python_shared_memory","text":"createpythonshared_memory(     input::Channel,     output::Channel,     dtype::Type,     size::Dims )\n\nFunction to test creation of Python Shared Memory\n\n\n\n\n\n","category":"method"}]
 }
