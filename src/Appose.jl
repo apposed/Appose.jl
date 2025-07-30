@@ -98,8 +98,18 @@ function create_python_shared_memory(
     end
 
     # TODO: Generalize to Windows
-    arr = SharedArray{dtype}("/dev/shm/" * result.shm.name, size)
+    arr = SharedArray{dtype}(get_shared_memory_prefix() * result.shm.name, size)
     return arr
+end
+
+function get_shared_memory_prefix()
+    if Sys.islinux()
+        return "/dev/shm/"
+    elseif Sys.iswindows()
+        return ""
+    elseif Sys.isunix()
+        return "/"
+    end
 end
 
 function create_python_shared_memory(dtype, size)
