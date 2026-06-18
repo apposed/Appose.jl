@@ -1,4 +1,5 @@
 module Appose
+export TaskStatus, INITIAL, QUEUED, RUNNING, COMPLETE, CANCELLED, FAILED, CRASHED, is_error, is_finished
 
 using JSON3
 using UUIDs
@@ -6,12 +7,25 @@ using SharedArrays
 # TODO: Make into an extension package
 using CondaPkg
 
+@enum TaskStatus begin
+    INITIAL
+    QUEUED
+    RUNNING
+    COMPLETE
+    CANCELLED
+    FAILED
+    CRASHED
+end
+
+is_error(s::TaskStatus) = s in (CANCELLED, FAILED, CRASHED)
+is_finished(s::TaskStatus) = s == COMPLETE || is_error(s)
+
 function launch_python_apposed()
     python_command = "import appose.python_worker; appose.python_worker.main()"
     to_python = Pipe()
     from_python = Pipe()
     err_python = Pipe()
-    CondaPkg.withenv() do
+    p = CondaPkg.withenv() do
         pl = pipeline(
             `python -c $python_command`,
             stdin=to_python,
@@ -33,6 +47,7 @@ function launch_python_apposed()
         println(to_python, JSON3.write(command))
     end
     return (; input, output)
+    # TODO: no UUID dispatch.
 end
 
 function appose_execute(script, input=Dict{String,Any}())
