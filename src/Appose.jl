@@ -8,6 +8,7 @@ using SharedArrays
 using CondaPkg
 
 @enum TaskStatus begin
+    # Order / Int value is used for status priority sorting.
     INITIAL
     QUEUED
     RUNNING
@@ -17,8 +18,11 @@ using CondaPkg
     CRASHED
 end
 
-is_error(s::TaskStatus) = s in (CANCELLED, FAILED, CRASHED)
-is_finished(s::TaskStatus) = s == COMPLETE || is_error(s)
+is_error(s::TaskStatus)::Bool = s in (CANCELLED, FAILED, CRASHED)
+is_finished(s::TaskStatus)::Bool = s == COMPLETE || is_error(s)
+status_priority(s::TaskStatus)::Int = is_error(s) ? 4 : Int(s)
+
+
 
 function launch_python_apposed()
     python_command = "import appose.python_worker; appose.python_worker.main()"
