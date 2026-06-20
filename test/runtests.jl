@@ -1,7 +1,6 @@
 using Appose
 using SharedArrays
 using Test
-using Random
 
 @testset "Appose.jl Python Service" begin
     svc = start_python_service()
